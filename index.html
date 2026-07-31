@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi Aplicación</title>
+  <title>Portal del Agente</title>
   <style>
     /* Eliminar márgenes y desplazamientos por defecto */
     html, body {
@@ -12,7 +12,60 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      background-color: #ffffff;
+      background-color: #0f172a; /* Fondo oscuro moderno mientras carga */
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    /* Contenedor de la pantalla de carga */
+    #loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #0f172a;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+      text-align: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    /* Spinner / Indicador de carga */
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid rgba(255, 255, 255, 0.1);
+      border-left-color: #38bdf8;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 16px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loader-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: #f8fafc;
+      margin-bottom: 6px;
+    }
+
+    .loader-subtitle {
+      font-size: 0.75rem;
+      font-weight: 400;
+      letter-spacing: 1.2px;
+      color: #94a3b8;
+      text-transform: uppercase;
     }
 
     /* Ocupar todo el espacio disponible */
@@ -26,11 +79,36 @@
 </head>
 <body>
 
+  <!-- Pantalla de Carga -->
+  <div id="loader">
+    <div class="spinner"></div>
+    <div class="loader-title">Cargando el Portal del Agente...</div>
+    <div class="loader-subtitle">DIRECCIÓN DE LIQUIDACIÓN Y CONTROL DE HABERES</div>
+  </div>
+
+  <!-- Iframe con evento onload -->
   <iframe 
-    src="https://script.google.com/macros/s/AKfycbwX9SmDFptLUtiHmyeakT1T0UKkbXT_GNayFrcTrbWDhadTR2DCYKClgmBg95d2TwC7/exec"
+    id="portal-iframe"
+    src="https://script.google.com/macros/s/AKfycbyL8GusAxTTUylxgti_2nWKp77lD_ahMMJQvehmUpJduDs-dNhMxjqD7ZhJhCsoYk4V/exec"
     allow="geolocation; microphone; camera; clipboard-write; encrypted-media"
-    loading="lazy">
+    loading="lazy"
+    onload="ocultarLoader()">
   </iframe>
+
+  <script>
+    function ocultarLoader() {
+      const loader = document.getElementById('loader');
+      // Transición de desvanecimiento
+      loader.style.opacity = '0';
+      loader.style.visibility = 'hidden';
+      
+      // Remover completamente del DOM tras la animación
+      setTimeout(() => {
+        loader.style.display = 'none';
+      }, 500);
+    }
+  </script>
 
 </body>
 </html>
+
